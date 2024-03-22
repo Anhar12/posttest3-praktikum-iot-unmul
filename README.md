@@ -36,4 +36,4 @@ Platform thinger.io digunakan sebagai platform dalam monitoring suhu ini, hasil 
    ![WhatsApp Image 2024-03-21 at 16 02 14](https://github.com/Anhar12/posttest3-praktikum-iot-unmul/assets/92861249/6f0fa190-da84-48e6-a757-790550a97e41)
 
 ### Link Video
-[Link Video Posttest 3 Kelompok 6](https://youtu.be/0H01u54BO3w)
+[Link Video Posttest 3 Kelompok 6](https://youtu.be/siBJjD5IBzc)
