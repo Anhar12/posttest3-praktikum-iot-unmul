@@ -23,8 +23,8 @@ ThingerESP8266 thing(USERNAME, DEVICE_ID, DEVICE_CREDENTIAL);
 // Inisialisasi objek untuk DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
-// Variabel untuk menyimpan data suhu dan kelembaban
-float suhu, kelembaban;
+// Variabel untuk menyimpan data suhu
+float c, k, f, r;
 bool ledMerah = false ;
 bool ledKuning = false;
 bool ledHijau = false;
@@ -39,8 +39,10 @@ void setup() {
     thing.add_wifi(SSID, SSID_PASSWORD);
     // Setup sensor DHT11
     thing["dht11"] >> [](pson& out){
-      out["kelembaban"] = kelembaban;
-      out["suhu"] = suhu;
+      out["suhu celcius"] = c;
+      out["suhu kelvin"] = k;
+      out["suhu reamur"] = r;
+      out["suhu fahrenheit"] = f;
     };
     thing["Led"] >> [](pson& out){
       out["led merah"] = ledMerah;
@@ -51,22 +53,22 @@ void setup() {
 
 void loop() {
   thing.handle();
-  float h = dht.readHumidity(); //Membaca kelembaban
-  float c = dht.readTemperature(); //Membaca suhu dalam satuan Celcius
+  c = dht.readTemperature(); //Membaca suhu dalam satuan Celcius
+  k = c + 273.15;
+  f = (c * 9/5) + 32;
+  r = c * 4/5;
 
-  kelembaban = h; // Update nilai kelembaban
-  suhu = c; // Update nilai suhu
   ledMerah = digitalRead(LEDMERAH);
   ledKuning = digitalRead(LEDKUNING);
   ledHijau = digitalRead(LEDHIJAU);
-  Tone = (suhu-36)*10;
+  Tone = (c-36)*10;
 
-  if (suhu < 30){
+  if (c < 30){
     digitalWrite(LEDHIJAU, 1);
     digitalWrite(LEDMERAH, 0);
     digitalWrite(LEDKUNING, 0);
     noTone(BUZZER);
-  } else if (suhu <= 36){
+  } else if (c <= 36){
     digitalWrite(LEDHIJAU, 0);
     digitalWrite(LEDMERAH, 0);
     digitalWrite(LEDKUNING, 1);
